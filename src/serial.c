@@ -1,11 +1,12 @@
 #include <stdio.h>
-#include <fcntl.h>   /* File Control Definitions           */
-#include <termios.h> /* POSIX Terminal Control Definitions */
-#include <unistd.h>  /* UNIX Standard Definitions 	   */ 
-#include <errno.h>   /* ERROR Number Definitions           */
+#include <string.h>
+#include <fcntl.h>   //File Control Definitions           
+#include <termios.h> // POSIX Terminal Control Definitions 
+#include <unistd.h>  // UNIX Standard Definitions 	   
+#include <errno.h>   // ERROR Number Definitions           
 
 void main(void) {
-    int fd;/*File Descriptor*/
+    int fd;//File Descriptor
 
     printf("\n +----------------------------------+");
     printf("\n |        Serial Port Read          |");
@@ -13,14 +14,13 @@ void main(void) {
 
 /*------------------------------- Opening the Serial Port -------------------------------*/
 
-/* Change /dev/ttyUSB0 to the one corresponding to your system */
+// Change /dev/ttyUSB0 to the one corresponding to your system */
 
     fd = open("/dev/ttyUSB0",O_RDWR | O_NOCTTY);	/* ttyUSB0 is the FT232 based USB2SERIAL Converter   */
                         /* O_RDWR   - Read/Write access to serial port       */
                         /* O_NOCTTY - No terminal will control the process   */
-                        /* Open in blocking mode,read will wait              */
                             
-    if(fd == -1)						/* Error Checking */
+    if(fd == -1)			
         printf("\n  Error! in Opening ttyUSB0  ");
     else
         printf("\n  ttyUSB0 Opened Successfully ");
@@ -60,7 +60,7 @@ void main(void) {
 
     char *msg = "#0 P1500\r";
     write(fd, msg, strlen(msg));
-    
+
     printf("\n +----------------------------------+\n\n\n");
 
     close(fd); /* Close the serial port */
