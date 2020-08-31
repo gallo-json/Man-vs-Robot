@@ -1,5 +1,6 @@
 #include "serial.h"
-
+#include <stdio.h>
+#include <string.h>
 #include <fcntl.h>   //File Control Definitions  
 #include <unistd.h>  // UNIX Standard Definitions
 
@@ -15,7 +16,7 @@ void main(void) {
         printf("\n  ttyUSB0 Opened Successfully ");
 
     setup_ser(fd);
-    
+
     char *msg = "#0 P1500\r";
     write(fd, msg, strlen(msg));
 

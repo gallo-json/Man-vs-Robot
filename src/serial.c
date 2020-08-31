@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 #include <fcntl.h>   //File Control Definitions           
 #include <termios.h> // POSIX Terminal Control Definitions    
 #include <errno.h>   // ERROR Number Definitions           
@@ -33,10 +32,8 @@ int setup_ser(int fd) {
     if((tcsetattr(fd,TCSANOW,&SerialPortSettings)) != 0) {
         /* Set the attributes to the termios structure*/
         printf("\n  ERROR ! in Setting attributes");
-        return -1;
     } else
         printf("\n  BaudRate = 9600 \n  StopBits = 1 \n  Parity   = none");
         
     tcflush(fd, TCIFLUSH); //Discards old data in the rx buffer 
-    return 0;
 }
