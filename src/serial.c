@@ -1,7 +1,9 @@
 #include <stdio.h>
+#include <string.h>
 #include <fcntl.h>   //File Control Definitions           
 #include <termios.h> // POSIX Terminal Control Definitions    
-#include <errno.h>   // ERROR Number Definitions           
+#include <errno.h>   // ERROR Number Definitions  
+#include <unistd.h>  // UNIX Standard Definitions         
 
 int setup_ser(int fd) {
     /*---------- Setting the Attributes of the serial port using termios structure --------- */
@@ -36,4 +38,13 @@ int setup_ser(int fd) {
         printf("\n  BaudRate = 9600 \n  StopBits = 1 \n  Parity   = none");
         
     tcflush(fd, TCIFLUSH); //Discards old data in the rx buffer 
+}
+
+void write_ser(int fd, int motor, int deg) {
+    char m[1024]; char d[1024];
+    sprintf(m, "%d", motor); sprintf(d, "%d", deg);
+
+    char msg[2051];
+    snprintf(msg, sizeof(msg), "#%s P%s\r", m, d);
+    write(fd, msg, strlen(msg));
 }

@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <fcntl.h>   //File Control Definitions  
-#include <unistd.h>  // UNIX Standard Definitions
+#include <unistd.h>  // UNIX Standard Definitions         
+
 
 void main(void) {
     /*------------------------------- Opening the Serial Port -------------------------------*/
@@ -17,8 +18,7 @@ void main(void) {
 
     setup_ser(fd);
 
-    char *msg = "#0 P1500\r";
-    write(fd, msg, strlen(msg));
+    write_ser(fd, 0, 1500);
 
     close(fd); // Close the serial port
 }
