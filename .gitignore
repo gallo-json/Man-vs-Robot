@@ -1,2 +1,3 @@
 py
 .vscode
+src/__pycache__
