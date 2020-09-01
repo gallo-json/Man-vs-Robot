@@ -40,11 +40,15 @@ int setup_ser(int fd) {
     tcflush(fd, TCIFLUSH); //Discards old data in the rx buffer 
 }
 
-void write_ser(int fd, int motor, int deg) {
+void move(int fd, int motor, int deg) {
     char m[1024]; char d[1024];
     sprintf(m, "%d", motor); sprintf(d, "%d", deg);
 
     char msg[2051];
     snprintf(msg, sizeof(msg), "#%s P%s\r", m, d);
     write(fd, msg, strlen(msg));
+}
+
+void idle(int fd) {
+    for (int i = 0; i < 6; i++) move(fd, i, 1500);
 }

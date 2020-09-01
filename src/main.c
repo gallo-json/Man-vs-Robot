@@ -18,7 +18,7 @@ void main(void) {
 
     setup_ser(fd);
 
-    write_ser(fd, 0, 1500);
+    move(fd, 0, 1500);
 
     close(fd); // Close the serial port
 }
