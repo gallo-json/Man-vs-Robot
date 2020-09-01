@@ -6,10 +6,11 @@
 
 
 void main(void) {
-    /*------------------------------- Opening the Serial Port -------------------------------*/
-    int fd = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY);	/* ttyUSB0 is the FT232 based USB2SERIAL Converter   */
-                                                        /* O_RDWR   - Read/Write access to serial port       */
-                                                        /* O_NOCTTY - No terminal will control the process   */
+    /*
+    //------------------------------- Opening the Serial Port -------------------------------
+    int fd = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY);	//ttyUSB0 is the FT232 based USB2SERIAL Converter   
+                                                        // O_RDWR   - Read/Write access to serial port       
+                                                        // O_NOCTTY - No terminal will control the process   
                             
     if (fd == -1) {
         printf("\n  Error! in Opening ttyUSB0  ");
@@ -21,4 +22,7 @@ void main(void) {
     move(fd, 0, 1500);
 
     close(fd); // Close the serial port
+    */
+
+   pgn();
 }
