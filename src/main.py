@@ -6,41 +6,48 @@ import chess
 thinking = 2000
 play = input("Do you want to play? (y/n): ")
 
-if play == 'yes' or play == 'y':
-    file = open('game.pgn', 'a')
-    file.truncate(0)
-    pgn = chess.pgn.Game()
-    pgn.headers["Event"] = "Example"
+while True:
+    if play == 'yes' or play == 'y':
+        file = open('game.pgn', 'a')
+        file.truncate(0)
+        pgn = chess.pgn.Game()
+        pgn.headers["Event"] = "Example"
 
-    #pgn.write(f'[Date {date.today().strftime("%m/%d/%y")}]\n')
+        #pgn.write(f'[Date {date.today().strftime("%m/%d/%y")}]\n')
 
-    stockfish = Stockfish('/usr/games/stockfish')
-    board = chess.Board()
-elif play == 'no' or play == 'n':
-    exit(0)
-else:
-    print('\nPlease enter yes or no')
+        stockfish = Stockfish('/usr/games/stockfish')
+        board = chess.Board()
+        break
+    elif play == 'no' or play == 'n':
+        exit(0)
+    else:
+        print('Please enter yes or no')
+        play = input("Do you want to play? (y/n): ")
 
 color = input("What color do you want to be? ")
 
-half = 0
+#half = 0
 moves = []
 
-if color == 'white' or color == 'w':
-    print('Starting game...')
-    order = ["Human player", "Stockfish"]
-elif color == 'black' or color == 'b':
-    half = half + 1
-    order = ["Stockfish", "Human player"]
+while True:
+    if color == 'white' or color == 'w':
+        print('Starting game...')
+        order = ["Human player", "Stockfish"]
+        break
+    elif color == 'black' or color == 'b':
+        half = half + 1
+        order = ["Stockfish", "Human player"]
 
-    print('Starting game...')
-    first_move = stockfish.get_best_move_time(thinking)
-    print(f'White moves: {board.san(chess.Move.from_uci(first_move))}')
-    board.push_uci(first_move)
-    moves.append(first_move)
-    file.write(f'{first_move}\n')
-else:
-    print('\nPlease enter yes or no')
+        print('Starting game...')
+        first_move = stockfish.get_best_move_time(thinking)
+        print(f'White moves: {board.san(chess.Move.from_uci(first_move))}')
+        board.push_uci(first_move)
+        moves.append(first_move)
+        file.write(f'{first_move}\n')
+        break
+    else:
+        print('\nPlease enter yes or no')
+        color = input("What color do you want to be? ")
 
 try:
     while True:
@@ -88,7 +95,7 @@ try:
             print('You are in check!')
 
         if board.is_checkmate():
-            print('Stockfish checkamted you, you lose.')
+            print('Stockfish checkmated you. You lose.')
             break
         elif board.is_stalemate():
             print('Game is a stalemate.')
@@ -98,6 +105,7 @@ try:
             break
         elif board.is_fivefold_repetition():
             print('Fivefold repetition - game is a draw.')
+
     print('Result:', board.result())
 except KeyboardInterrupt:
     file.close()
