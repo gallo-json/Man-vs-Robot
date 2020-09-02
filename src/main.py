@@ -66,15 +66,14 @@ try:
         if board.is_checkmate():
             print('You checkmated stockfish, you win!')
             break
-
-        if board.is_stalemate():
+        elif board.is_stalemate():
             print('Game is a stalemate.')
             break
-        
-        if board.is_insufficient_material():
+        elif board.is_insufficient_material():
             print('Insufficient material to win.')
             break
-        
+        elif board.is_fivefold_repetition():
+            print('Fivefold repetition - game is a draw.')
 
         stockfish.set_position(moves)
         computer_move = stockfish.get_best_move_time(thinking)
@@ -84,6 +83,22 @@ try:
         moves.append(computer_move)
         board.push_uci(computer_move)
         file.write(f'{computer_move}\n')
+
+        if board.is_check():
+            print('You are in check!')
+
+        if board.is_checkmate():
+            print('Stockfish checkamted you, you lose.')
+            break
+        elif board.is_stalemate():
+            print('Game is a stalemate.')
+            break
+        elif board.is_insufficient_material():
+            print('Insufficient material to win.')
+            break
+        elif board.is_fivefold_repetition():
+            print('Fivefold repetition - game is a draw.')
+    print('Result:', board.result())
 except KeyboardInterrupt:
     file.close()
     print('\nQuiting...')
