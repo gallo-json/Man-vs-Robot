@@ -7,7 +7,8 @@ thinking = 2000
 play = input("Do you want to play? (y/n): ")
 
 if play == 'yes' or play == 'y':
-    game = open('game.pgn', 'w')
+    file = open('game.pgn', 'a')
+    file.truncate(0)
     pgn = chess.pgn.Game()
     pgn.headers["Event"] = "Example"
 
@@ -27,38 +28,45 @@ moves = []
 
 if color == 'white' or color == 'w':
     print('Starting game...')
-    pgn.headers["White"] = "Human player"
-    pgn.headers["Black"] = "Stockfish"
+    order = ["Human player", "Stockfish"]
 elif color == 'black' or color == 'b':
     half = half + 1
-    pgn.headers["White"] = "Stockfish"
-    pgn.headers["Black"] = "Human player"
+    order = ["Stockfish", "Human player"]
 
     print('Starting game...')
     first_move = stockfish.get_best_move_time(thinking)
     print(f'White moves: {board.san(chess.Move.from_uci(first_move))}')
-    main = pgn.add_main_variation(chess.Move.from_uci(first_move))
     board.push_uci(first_move)
     moves.append(first_move)
+    file.write(f'{first_move}\n')
 else:
     print('\nPlease enter yes or no')
 
-while True:
-    human_move = input("Your move: ")
-    
-    if half == 0: main = pgn.add_main_variation(board.parse_san(human_move))
-    else: main = main.add_main_variation(board.parse_san(human_move))
+try:
+    while True:
+        human_move = input("Your move: ")
+        
+        #if half == 0: main = pgn.add_main_variation(board.parse_san(human_move))
+        #else: main = main.add_main_variation(board.parse_san(human_move))
 
-    moves.append(str(board.parse_san(human_move)))
-    board.push_san(human_move)
-    
-    stockfish.set_position(moves)
-    computer_move = stockfish.get_best_move_time(thinking)
-    print(f'Computer moves: {board.san(chess.Move.from_uci(computer_move))}')
+        while True:
+            try:
+                moves.append(str(board.parse_san(human_move)))
+                board.push_san(human_move)
+            except ValueError:
+                print(human_move, 'is not a legal move!')
+                human_move = input("Your move: ")
+            else:
+                break
 
-    board.push_uci(computer_move)
-    moves.append(computer_move)
-    main = main.add_main_variation(chess.Move.from_uci(computer_move))
-    break
-print(moves)
-print(pgn)
+        stockfish.set_position(moves)
+        computer_move = stockfish.get_best_move_time(thinking)
+        print(f'Computer moves: {board.san(chess.Move.from_uci(computer_move))}')
+
+        #main = main.add_main_variation(chess.Move.from_uci(computer_move))
+        moves.append(computer_move)
+        board.push_uci(computer_move)
+        file.write(f'{computer_move}\n')
+except KeyboardInterrupt:
+    file.close()
+    print('\nQuiting...')
