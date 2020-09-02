@@ -4,6 +4,20 @@ from ser import Ser
 import chess.pgn
 import chess
 
+heights = {
+    'K': 9.5, 
+    'Q': 7.5, 
+    'R': 4.5, 
+    'B': 6.5, 
+    'N': 5.75,
+    'P': 4.5
+}
+
+def get_height(san):
+    if san[0].isupper():
+        return heights[san[0]]
+    else:
+        return heights['P']
 thinking = 2000
 play = input("Do you want to play? (y/n): ")
 
@@ -30,10 +44,12 @@ order = []
 while True:
     if color == 'white' or color == 'w':
         order = ["Human player", "Stockfish"]
+        s = Ser('b')
         print('Starting game...')
         break
     elif color == 'black' or color == 'b':
         order = ["Stockfish", "Human player"]
+        s = Ser('w')
         print('Starting game...')
         first_move = stockfish.get_best_move_time(thinking)
         print(f'White moves: {board.san(chess.Move.from_uci(first_move))}')
@@ -81,8 +97,29 @@ try:
         computer_move = stockfish.get_best_move_time(thinking)
         print(f'Computer moves: {board.san(chess.Move.from_uci(computer_move))}')
 
-        moves.append(computer_move)
-        board.push_uci(computer_move)
+        if board.is_capture(chess.Move.from_uci(computer_move)):
+            if board.is_en_passant(chess.Move.from_uci(computer_move)):
+                if s.side == 'w'
+                    s.remove_piece(f'{computer_move[2]}5', get_height(board.san(chess.Move.from_uci(computer_move))))
+                else:
+                    s.remove_piece(f'{computer_move[2]}4', get_height(board.san(chess.Move.from_uci(computer_move))))
+            else:
+                s.remove_piece(computer_move[:2], get_height(board.san(chess.Move.from_uci(computer_move))))
+                s.move_to_coordinate(computer_move, get_height(board.san(chess.Move.from_uci(computer_move))))
+
+        if computer_move == 'e1g1':
+            s.move_to_coordinate(computer_move, height['K'])
+            s.move_to_coordinate('h1f1', height['R'])
+        elif computer_move == 'e1c1':
+            s.move_to_coordinate(computer_move, height['K'])
+            s.move_to_coordinate('a1d1', height['R'])
+
+        if computer_move == 'e8g8':
+            s.move_to_coordinate(computer_move, height['K'])
+            s.move_to_coordinate('h8f8', height['R'])
+        elif computer_move == 'e8c8':
+            s.move_to_coordinate(computer_move, height['K'])
+            s.move_to_coordinate('a8d8', height['R'])
 
         if board.is_check():
             print('You are in check!')
@@ -101,6 +138,11 @@ try:
             break
         elif board.is_fivefold_repetition():
             print('Fivefold repetition - game is a draw.')
+
+        moves.append(computer_move)
+        board.push_uci(computer_move)
+
+
 
     pgn.from_board(board)
     pgn.headers["Date"] = date.today().strftime("%m/%d/%y")
