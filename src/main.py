@@ -90,7 +90,7 @@ try:
         #main = main.add_main_variation(chess.Move.from_uci(computer_move))
         moves.append(computer_move)
         board.push_uci(computer_move)
-        file.write(f'{computer_move}\n')
+        file.write(f'{computer_move[:4]}\n')
 
         if board.is_check():
             print('You are in check!')
