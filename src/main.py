@@ -23,10 +23,6 @@ play = input("Do you want to play? (y/n): ")
 
 while True:
     if play == 'yes' or play == 'y':
-        file = open('game.pgn', 'a')
-        file.truncate(0)
-        pgn = chess.pgn.Game()
-
         stockfish = Stockfish('/usr/games/stockfish')
         board = chess.Board()
         break
@@ -100,9 +96,9 @@ try:
         if board.is_capture(chess.Move.from_uci(computer_move)):
             if board.is_en_passant(chess.Move.from_uci(computer_move)):
                 if s.side == 'w'
-                    s.remove_piece(f'{computer_move[2]}5', get_height(board.san(chess.Move.from_uci(computer_move))))
+                    s.remove_piece(f'{computer_move[2]}5', height['P'])
                 else:
-                    s.remove_piece(f'{computer_move[2]}4', get_height(board.san(chess.Move.from_uci(computer_move))))
+                    s.remove_piece(f'{computer_move[2]}4', height['P'])
             else:
                 s.remove_piece(computer_move[:2], get_height(board.san(chess.Move.from_uci(computer_move))))
                 s.move_to_coordinate(computer_move, get_height(board.san(chess.Move.from_uci(computer_move))))
@@ -141,9 +137,8 @@ try:
 
         moves.append(computer_move)
         board.push_uci(computer_move)
-
-
-
+        
+    pgn = chess.pgn.Game()
     pgn.from_board(board)
     pgn.headers["Date"] = date.today().strftime("%m/%d/%y")
     pgn.headers["White"] = order[0]
@@ -151,7 +146,9 @@ try:
 
     print('Result:', board.result())
 
+    file = open('game.pgn', 'a')
     file.truncate(0)
+
     file.write(pgn)
     file.close()
 except KeyboardInterrupt:
