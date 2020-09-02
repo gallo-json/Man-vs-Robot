@@ -2,7 +2,7 @@ import serial
 
 class Ser:
     def __init__(self):
-        sp = serial.Serial('/dev/ttyUSB0', 9600)
+        self.sp = serial.Serial('/dev/ttyUSB0', 9600)
 
     def move(self, motor, deg):
         self.sp.write(f'#{motor} P{deg}\r'.encode())
