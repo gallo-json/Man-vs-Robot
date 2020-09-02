@@ -12,8 +12,6 @@ while True:
         file.truncate(0)
         pgn = chess.pgn.Game()
 
-        #pgn.write(f'[Date {date.today().strftime("%m/%d/%y")}]\n')
-
         stockfish = Stockfish('/usr/games/stockfish')
         board = chess.Board()
         break
@@ -41,7 +39,6 @@ while True:
         print(f'White moves: {board.san(chess.Move.from_uci(first_move))}')
         board.push_uci(first_move)
         moves.append(first_move)
-        file.write(f'{first_move}\n')
         break
     else:
         print('\nPlease enter yes or no')
@@ -51,9 +48,6 @@ try:
     while True:
         resign = False
         human_move = input("Your move: ")
-        
-        #if half == 0: main = pgn.add_main_variation(board.parse_san(human_move))
-        #else: main = main.add_main_variation(board.parse_san(human_move))
 
         while True:
             try:
@@ -90,7 +84,6 @@ try:
         #main = main.add_main_variation(chess.Move.from_uci(computer_move))
         moves.append(computer_move)
         board.push_uci(computer_move)
-        file.write(f'{computer_move}\n')
 
         if board.is_check():
             print('You are in check!')
@@ -111,6 +104,7 @@ try:
             print('Fivefold repetition - game is a draw.')
 
     pgn.from_board(board)
+    pgn.headers["Date"] = date.today().strftime("%m/%d/%y")
     pgn.headers["White"] = order[0]
     pgn.headers["Black"] = order[1]
 
