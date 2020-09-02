@@ -1,5 +1,6 @@
 from stockfish import Stockfish
 from datetime import date
+from ser import Ser
 import chess.pgn
 import chess
 
@@ -30,7 +31,6 @@ while True:
     if color == 'white' or color == 'w':
         order = ["Human player", "Stockfish"]
         print('Starting game...')
-        
         break
     elif color == 'black' or color == 'b':
         order = ["Stockfish", "Human player"]
@@ -41,7 +41,7 @@ while True:
         moves.append(first_move)
         break
     else:
-        print('\nPlease enter yes or no')
+        print('Please enter white (w) or black (b)')
         color = input("What color do you want to be? ")
 
 try:
@@ -81,7 +81,6 @@ try:
         computer_move = stockfish.get_best_move_time(thinking)
         print(f'Computer moves: {board.san(chess.Move.from_uci(computer_move))}')
 
-        #main = main.add_main_variation(chess.Move.from_uci(computer_move))
         moves.append(computer_move)
         board.push_uci(computer_move)
 
