@@ -46,8 +46,8 @@ else:
 while True:
     human_move = input("Your move: ")
     
-    if half == 0: main = pgn.add_main_variation(chess.Move.from_uci(human_move))
-    else: main = main.add_main_variation(chess.Move.from_uci(human_move))
+    if half == 0: main = pgn.add_main_variation(board.parse_san(human_move))
+    else: main = main.add_main_variation(board.parse_san(human_move))
 
     moves.append(str(board.parse_san(human_move)))
     board.push_san(human_move)
@@ -58,6 +58,7 @@ while True:
 
     board.push_uci(computer_move)
     moves.append(computer_move)
+    main = main.add_main_variation(chess.Move.from_uci(computer_move))
     break
 print(moves)
 print(pgn)
