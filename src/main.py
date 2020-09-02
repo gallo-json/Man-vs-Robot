@@ -53,11 +53,28 @@ try:
             try:
                 moves.append(str(board.parse_san(human_move)))
                 board.push_san(human_move)
+
             except ValueError:
                 print(human_move, 'is not a legal move!')
                 human_move = input("Your move: ")
             else:
                 break
+
+        if board.is_check():
+            print('Computer is in check!')
+
+        if board.is_checkmate():
+            print('You checkmated stockfish, you win!')
+            break
+
+        if board.is_stalemate():
+            print('Game is a stalemate.')
+            break
+        
+        if board.is_insufficient_material():
+            print('Insufficient material to win.')
+            break
+        
 
         stockfish.set_position(moves)
         computer_move = stockfish.get_best_move_time(thinking)
