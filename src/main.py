@@ -95,6 +95,9 @@ try:
         if board.is_check():
             print('You are in check!')
 
+        if len(computer_move) == 5:
+            print("Please promote my pawn into a", computer_move[-1].upper())
+
         if board.is_checkmate():
             print('Stockfish checkmated you. You lose.')
             break
