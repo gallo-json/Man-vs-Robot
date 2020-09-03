@@ -97,25 +97,28 @@ try:
             if board.is_en_passant(chess.Move.from_uci(computer_move)):
                 if s.side == 'w'
                     s.remove_piece(f'{computer_move[2]}5', height['P'])
+                    s.move_to_coordinate(computer_move, heights['P'])
                 else:
                     s.remove_piece(f'{computer_move[2]}4', height['P'])
+                    s.move_to_coordinate(computer_move, heights['P'])
             else:
                 s.remove_piece(computer_move[:2], get_height(board.san(chess.Move.from_uci(computer_move))))
                 s.move_to_coordinate(computer_move, get_height(board.san(chess.Move.from_uci(computer_move))))
-
-        if computer_move == 'e1g1':
-            s.move_to_coordinate(computer_move, height['K'])
-            s.move_to_coordinate('h1f1', height['R'])
-        elif computer_move == 'e1c1':
-            s.move_to_coordinate(computer_move, height['K'])
-            s.move_to_coordinate('a1d1', height['R'])
-
-        if computer_move == 'e8g8':
-            s.move_to_coordinate(computer_move, height['K'])
-            s.move_to_coordinate('h8f8', height['R'])
-        elif computer_move == 'e8c8':
-            s.move_to_coordinate(computer_move, height['K'])
-            s.move_to_coordinate('a8d8', height['R'])
+        else:
+            if computer_move == 'e1g1':
+                s.move_to_coordinate(computer_move, height['K'])
+                s.move_to_coordinate('h1f1', height['R'])
+            elif computer_move == 'e1c1':
+                s.move_to_coordinate(computer_move, height['K'])
+                s.move_to_coordinate('a1d1', height['R'])
+            elif computer_move == 'e8g8':
+                s.move_to_coordinate(computer_move, height['K'])
+                s.move_to_coordinate('h8f8', height['R'])
+            elif computer_move == 'e8c8':
+                s.move_to_coordinate(computer_move, height['K'])
+                s.move_to_coordinate('a8d8', height['R'])
+            else:
+                s.move_to_coordinate(computer_move, heights[board.san(chess.Move.from_uci(computer_move))[0]])
 
         if board.is_check():
             print('You are in check!')
@@ -137,16 +140,16 @@ try:
 
         moves.append(computer_move)
         board.push_uci(computer_move)
-        
+
+    print('Result:', board.result())
+
     pgn = chess.pgn.Game()
     pgn.from_board(board)
     pgn.headers["Date"] = date.today().strftime("%m/%d/%y")
     pgn.headers["White"] = order[0]
     pgn.headers["Black"] = order[1]
 
-    print('Result:', board.result())
-
-    file = open('game.pgn', 'a')
+    file = open('game.pgn', 'w')
     file.truncate(0)
 
     file.write(pgn)
