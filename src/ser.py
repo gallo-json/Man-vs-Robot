@@ -6,7 +6,13 @@ class Ser:
         self.side = side
 
     def __sq_to_num(self, sq):
-        pass
+        if self.side == 'w':
+            for num + 1, letter in enumerate(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']):
+                if sq[0] == letter:
+                    i = num
+                    break
+            
+            return i, sq[1]
     
     def move(self, motor, deg):
         self.sp.write(f'#{motor} P{deg}\r'.encode())
@@ -16,7 +22,8 @@ class Ser:
             self.move(i, 1500)
 
     def move_to_coordinate(self, uci, height):
-        pass
+        coord = [__sq_to_num(uci[:2]), __sq_to_num(uci[2:4])]
+        print(coord)
 
     def remove_piece(self, square, height):
         pass

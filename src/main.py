@@ -103,7 +103,7 @@ try:
                     s.move_to_coordinate(computer_move, heights['P'])
             else:
                 s.remove_piece(computer_move[:2], get_height(board.san(chess.Move.from_uci(computer_move))))
-                s.move_to_coordinate(computer_move, get_height(board.san(chess.Move.from_uci(computer_move))))
+                s.move_to_coordinate(computer_move[:4], get_height(board.san(chess.Move.from_uci(computer_move))))
         else:
             if computer_move == 'e1g1':
                 s.move_to_coordinate(computer_move, height['K'])
@@ -118,7 +118,7 @@ try:
                 s.move_to_coordinate(computer_move, height['K'])
                 s.move_to_coordinate('a8d8', height['R'])
             else:
-                s.move_to_coordinate(computer_move, heights[board.san(chess.Move.from_uci(computer_move))[0]])
+                s.move_to_coordinate(computer_move[:4], heights[board.san(chess.Move.from_uci(computer_move))[0]])
 
         if board.is_check():
             print('You are in check!')
