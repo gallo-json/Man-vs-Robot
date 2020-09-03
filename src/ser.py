@@ -6,13 +6,21 @@ class Ser:
         self.side = side
 
     def __sq_to_num(self, sq):
+        letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+        
         if self.side == 'w':
-            for num + 1, letter in enumerate(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']):
+            for num, letter in enumerate(letters):
                 if sq[0] == letter:
-                    i = num
-                    break
-            
+                    i = num + 1
+                    break  
             return i, sq[1]
+        else:
+            for num, letter in enumerate(reversed(letters)):
+                if sq[0] == letter:
+                    i = num + 1
+                    break
+            return i, 9 - sq[1]
+
     
     def move(self, motor, deg):
         self.sp.write(f'#{motor} P{deg}\r'.encode())
