@@ -5,6 +5,9 @@ class Ser:
         self.sp = serial.Serial('/dev/ttyUSB0', 9600)
         self.side = side
 
+    def __sq_to_num(self, sq):
+        pass
+    
     def move(self, motor, deg):
         self.sp.write(f'#{motor} P{deg}\r'.encode())
 

@@ -154,6 +154,8 @@ try:
 
     file.write(pgn)
     file.close()
+    s.cl()
 except KeyboardInterrupt:
+    s.cl()
     file.close()
     print('\nQuiting...')
