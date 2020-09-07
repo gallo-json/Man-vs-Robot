@@ -4,6 +4,7 @@ class Ser:
     def __init__(self, side):
         self.sp = serial.Serial('/dev/ttyUSB0', 9600)
         self.side = side
+        self.sp.flush()
 
     def __sq_to_num(self, sq):
         letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
@@ -23,12 +24,12 @@ class Ser:
 
     
     def move(self, motor, deg, speed=100):
-        
-        self.sp.write(f'#{motor} P{deg} S{speed}\r'.encode())
+        m = f'#{motor} P{deg} S{speed}\r\n'
+        self.sp.write(m.encode())
 
     def idle(self):
-        for i in range(6):
-            self.move(i, 1500, 10)
+        for i in range(4):
+            self.move(i, 0)
         
     def move_to_coordinate(self, uci, height):
         coord = [__sq_to_num(uci[:2]), __sq_to_num(uci[2:4])]

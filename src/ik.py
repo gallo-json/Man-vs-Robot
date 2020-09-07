@@ -5,6 +5,7 @@ b = 15
 d = 11.5
 t = 7.5 + 2
 '''
+
 conv_to_servo = lambda deg: ((deg * 2000) / 180) + 500
 
 def calc_arms(piece_height, E):
