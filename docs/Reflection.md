@@ -21,3 +21,9 @@ This was also a really strange issue. As I previously mentioned, this project wa
 ### AI to detect which pieces user moved with a camera
 
 This would be a very ambitious improvement, but OpenCV has some chess dectection tools. Instead of the user inputing their moves in the terminal, it would be pretty cool if the robot could see those moves already.
+
+## What did I learn?
+
+- Dipped my feet in C
+- Python Chess library
+- PySerial
