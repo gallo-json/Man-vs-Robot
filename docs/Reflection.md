@@ -14,7 +14,7 @@ I also at some point tried to make this project in Java, to keep up with my Java
 
 ### Math calculations were not working
 
-
+This was also a really strange issue. As I previously mentioned, this project was based on a previous project of mine where I calculated the angles needed to reach a point. However translating this into python was not working. The robot was hitting the ground too prematurely and picking up pieces.
 
 ## Improvements
 
