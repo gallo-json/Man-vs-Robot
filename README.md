@@ -1,8 +1,7 @@
 # Man-vs-Robot
 A robot arm that plays chess against a human.
 
-## Date
-Early September 2020, 10th grade.
+Video of its prototype working: https://www.youtube.com/watch?v=F6KBEtsqXN8
 
 ## Overview
 
